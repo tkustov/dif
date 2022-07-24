@@ -30,7 +30,7 @@ const MyUnit2Factory = dif.Transient(MyUnit2)
 
 export const MyUnit1Factory = dif.Singleton(MyUnit1)
   .ctor(MyUnit2Factory, dif.Const(process.env.MY_TOKEN))
-  .setDep(process.env.MY_DEP)
+  .setDep(dif.Const(process.env.MY_DEP))
   .complete();
 ```
 
