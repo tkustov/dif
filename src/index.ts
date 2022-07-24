@@ -1,8 +1,8 @@
-import { DIConfigBuilder } from './DIConfigBuilder';
 import { createConfigProxy } from './configProxy';
+import { DIConfigBuilder } from './DIConfigBuilder';
 import { Singleton } from './Sigleton';
 import { Transient } from './Transient';
-import { DIConfig, DIConfigProxied, DIFactory, Subject } from './Types';
+import { DIConfigProxied, DIFactory, Subject } from './Types';
 
 export const dif = {
   Singleton<S extends Subject>(subject: S): DIConfigProxied<S> {
@@ -15,7 +15,7 @@ export const dif = {
     const proxied = createConfigProxy(builder);
     return proxied;
   },
-  AsIs<T>(value: T): DIFactory<T> {
+  Const<T>(value: T): DIFactory<T> {
     return {
       create() {
         return value;
