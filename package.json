@@ -1,11 +1,12 @@
 {
   "name": "@tkustov/dif",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Factory-based DI",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rm -rf ./lib",
     "build": "tsc --project tsconfig.json",
     "prepublishOnly": "NODE_ENV=production npm run build"
   },
