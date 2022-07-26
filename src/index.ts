@@ -21,5 +21,17 @@ export const dif = {
         return value;
       }
     };
+  },
+  Derive<S, R>(
+    factory: DIFactory<S>,
+    mapper: (subject: S) => R
+  ): DIFactory<R> {
+    return {
+      create() {
+        const subject = factory.create();
+        const derived = mapper(subject);
+        return derived;
+      }
+    };
   }
 };

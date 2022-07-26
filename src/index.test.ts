@@ -88,4 +88,11 @@ describe('dif', () => {
     expect(instance).toBeInstanceOf(Unit2);
     expect(instance.dummy).toBeInstanceOf(Dummy);
   });
+
+  it('should be able to derive factory', () => {
+    const f1 = dif.Const('f1');
+    const f2 = dif.Derive(f1, (v1) => `${v1} f2`);
+    expect(f1.create()).toBe('f1');
+    expect(f2.create()).toBe('f1 f2');
+  });
 });
