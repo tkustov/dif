@@ -37,7 +37,7 @@ export const MyUnit1Factory = dif.Singleton(MyUnit1)
 ```typescript
 // src/index.ts
 
-import { MyUnit1Factory } from './root';
+import { MyUnit1Factory } from './root/MyUnit1';
 
 const unit1 = MyUnit1Factory.create();
 unit1.start();

@@ -1,6 +1,6 @@
 {
   "name": "@tkustov/dif",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Factory-based DI",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -21,10 +21,8 @@
   },
   "homepage": "https://github.com/tkustov/dif#readme",
   "devDependencies": {
+    "@tsconfig/recommended": "^1.0.1",
     "@types/node": "^18.0.6",
     "typescript": "^4.7.4"
-  },
-  "dependencies": {
-    "@tsconfig/recommended": "^1.0.1"
   }
 }
