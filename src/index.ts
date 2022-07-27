@@ -4,6 +4,8 @@ import { Singleton } from './Sigleton';
 import { Transient } from './Transient';
 import { DIConfigProxied, DIFactory, Subject } from './Types';
 
+export type { DIFactory } from './Types';
+
 export const dif = {
   Singleton<S extends Subject>(subject: S): DIConfigProxied<S> {
     const builder = new DIConfigBuilder(subject, Singleton);
