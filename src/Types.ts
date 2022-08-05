@@ -5,7 +5,7 @@ export type DIFactory<S> = {
 export type DIFactoryCtor<S extends Subject> = {
   new (
     subject: S,
-    ctorParams: Factorize<ConstructorParameters<S>>,
+    ctorParams: Factorize<ConstructorParameters<S>> | undefined,
     methods: Map<PropertyKey, DIFactory<any>>
   ): DIFactory<InstanceType<S>>;
 }
@@ -55,5 +55,5 @@ type SubjectMethodsProxy<S extends Subject> = {
 export type Subject = new (...args: any) => any;
 
 export type Factorize<A extends any[]> = {
-  [K in (keyof A)]: DIFactory<A[K]>;
+  [K in number]: K extends keyof A ? DIFactory<A[K]> : never;
 };

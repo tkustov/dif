@@ -95,4 +95,24 @@ describe('dif', () => {
     expect(f1.create()).toBe('f1');
     expect(f2.create()).toBe('f1 f2');
   });
+
+  it('should transform factory function to DIFactory', () => {
+    const f1 = dif.Factory(() => 'f1');
+    expect(f1.create()).toBe('f1');
+  });
+
+  it('should memorize value w/ Memo constructor', () => {
+    let count = 0;
+    const counter = dif.Factory(() => {
+      count += 1;
+      return count;
+    });
+    const dummy = dif.Transient(Dummy).complete();
+    const memoCounter = dif.Memo(counter);
+    const memoDummy = dif.Memo(dummy);
+    expect(counter.create()).not.toBe(counter.create());
+    expect(memoCounter.create()).toBe(memoCounter.create());
+    expect(dummy.create()).not.toBe(dummy.create());
+    expect(memoDummy.create()).toBe(memoDummy.create());
+  });
 });

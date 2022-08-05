@@ -31,7 +31,6 @@ export class DIConfigBuilder<S extends Subject> implements DIConfig<S> {
   complete(): DIFactory<InstanceType<S>> {
     const factory = new this.subjectFactory(
       this.subject,
-      // @ts-ignore
       this.ctorFactories,
       this.methods
     );
