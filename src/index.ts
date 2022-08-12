@@ -1,8 +1,9 @@
 import { createConfigProxy } from './configProxy';
 import { DIConfigBuilder } from './DIConfigBuilder';
+import { instantFactories } from './instantFactories';
 import { Singleton as SingletonFactory } from './Sigleton';
 import { Transient as TransientFactory } from './Transient';
-import { DIConfigProxied, DIFactory, Subject } from './Types';
+import { DIConfigProxied, DIFactory, Factorize, FactoryInstances, Subject } from './Types';
 
 export type { DIFactory } from './Types';
 
@@ -91,8 +92,28 @@ function Derive<S, R>(
   };
 }
 
+/**
+ * Useful for composing values from few factories
+ * @param factories - factories to get inputs from
+ * @param composer - function that consumes factories values and compose it to output
+ * @returns factory of composed value
+ */
+function Compose<F extends DIFactory<any>[], R>(
+  factories: [...F],
+  composer: (...values: FactoryInstances<F>) => R
+): DIFactory<R> {
+  return {
+    create() {
+      const values = instantFactories(factories);
+      const result: R = composer(...values);
+      return result;
+    }
+  };
+}
+
 export const dif = {
   Const,
+  Compose,
   Derive,
   Factory,
   Memo,

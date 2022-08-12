@@ -30,7 +30,7 @@ export type DIConfig<S extends Subject> = {
 export type DIConfigProxied<S extends Subject> = {
   ctor<A extends Factorize<ConstructorParameters<S>>>(
     ...factories: A extends any[] ? A : never
-  ): DIConfig<S> & SubjectMethodsProxy<S>;
+  ): DIConfigProxied<S>;
 
   method<M extends (keyof InstanceType<S>)>(
     name: M,
@@ -39,7 +39,7 @@ export type DIConfigProxied<S extends Subject> = {
         ? DIFactory<Parameters<InstanceType<S>[M]>[0]>
         : never
     )
-  ): DIConfig<S> & SubjectMethodsProxy<S>;
+  ): DIConfigProxied<S>;
 
   complete(): DIFactory<InstanceType<S>>;
 } & SubjectMethodsProxy<S>;
@@ -55,5 +55,9 @@ type SubjectMethodsProxy<S extends Subject> = {
 export type Subject = new (...args: any) => any;
 
 export type Factorize<A extends any[]> = {
-  [K in number]: K extends keyof A ? DIFactory<A[K]> : never;
+  [K in (keyof A)]: K extends keyof A ? DIFactory<A[K]> : never;
+};
+
+export type FactoryInstances<F extends DIFactory<any>[]> = {
+  [K in (keyof F)]: F[K] extends DIFactory<infer S> ? S : never;
 };

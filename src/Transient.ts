@@ -3,7 +3,7 @@ import { DIFactory, Factorize, Subject } from './Types';
 export class Transient<S extends Subject> implements DIFactory<S> {
   constructor(
     private subject: S,
-    private ctorParams: Factorize<ConstructorParameters<S>> = [],
+    private ctorParams: Factorize<ConstructorParameters<S>> | undefined,
     private methods: Map<PropertyKey, DIFactory<any>>
   ) { }
 

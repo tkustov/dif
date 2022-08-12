@@ -115,4 +115,11 @@ describe('dif', () => {
     expect(dummy.create()).not.toBe(dummy.create());
     expect(memoDummy.create()).toBe(memoDummy.create());
   });
+
+  it('should compose values from few factories', () => {
+    const dummy = dif.Singleton(Dummy).complete();
+    const f1 = dif.Const('f1');
+    const f3 = dif.Compose([f1, dummy], (f1, dummy) => `${f1} ${dummy}`);
+    expect(f3.create()).toBe('f1 f2');
+  });
 });
