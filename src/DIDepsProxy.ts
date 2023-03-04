@@ -1,6 +1,6 @@
-import { DIDepsBuilder } from './DIDepsBuilder'
-import { DIFactories } from './DIFactory';
-import { DISubject } from './DISubject'
+import { DIDepsBuilder } from './DIDepsBuilder.js'
+import { DIFactories } from './DIFactory.js';
+import { DISubject } from './DISubject.js'
 
 export type DIDepsProxy<S extends DISubject, I = ReturnType<S>> = DIDepsBuilder<S, I> & {
   [K in keyof I]: (

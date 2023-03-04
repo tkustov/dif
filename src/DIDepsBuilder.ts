@@ -1,8 +1,8 @@
-import { DIFactories, DIFactory } from './DIFactory';
-import { DIScope, DIScopes } from './DIScope';
-import { DISubject } from './DISubject';
-import { SingletonFactory } from './SingletonFactory';
-import { TransientFactory } from './TransientFactory';
+import { DIFactories, DIFactory } from './DIFactory.js';
+import { DIScope, DIScopes } from './DIScope.js';
+import { DISubject } from './DISubject.js';
+import { SingletonFactory } from './SingletonFactory.js';
+import { TransientFactory } from './TransientFactory.js';
 
 type MethodParams<S, M extends keyof S> = S[M] extends (...args: infer A) => any ? DIFactories<A> : never[];
 

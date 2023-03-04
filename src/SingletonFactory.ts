@@ -1,6 +1,6 @@
-import { DIFactory } from './DIFactory';
-import { DISubject } from './DISubject';
-import { TransientFactory } from './TransientFactory';
+import { DIFactory } from './DIFactory.js';
+import { DISubject } from './DISubject.js';
+import { TransientFactory } from './TransientFactory.js';
 
 const NoInstance = Symbol('@tkustov/dif:SingletonFactory::NoValue');
 

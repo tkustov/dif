@@ -1,13 +1,21 @@
 {
   "name": "@tkustov/dif",
   "version": "1.0.0",
+  "type": "module",
   "description": "Factory-based DI",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "require": "./lib/cjs/index.js"
+    }
+  },
   "scripts": {
     "test": "jest",
     "prebuild": "rm -rf ./lib",
-    "build": "tsc --project tsconfig.build.json",
+    "build": "tsc --project tsconfig.types.json && tsc --project tsconfig.esm.json && tsc --project tsconfig.cjs.json",
     "prepublishOnly": "NODE_ENV=production npm run build"
   },
   "repository": {

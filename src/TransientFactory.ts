@@ -1,5 +1,5 @@
-import { DIFactory } from './DIFactory';
-import { DISubject } from './DISubject';
+import { DIFactory } from './DIFactory.js';
+import { DISubject } from './DISubject.js';
 
 export class TransientFactory<S extends DISubject> implements DIFactory<ReturnType<DISubject>> {
   constructor(

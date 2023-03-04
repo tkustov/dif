@@ -1,8 +1,8 @@
-import { DIDepsBuilder } from './DIDepsBuilder';
-import { DIFactory } from './DIFactory';
-import { DISubject } from './DISubject';
-import { DIScope, DIScopes } from './DIScope';
-import { createDIDepsProxy, DIDepsProxy } from './DIDepsProxy';
+import { DIDepsBuilder } from './DIDepsBuilder.js';
+import { DIFactory } from './DIFactory.js';
+import { DISubject } from './DISubject.js';
+import { DIScope, DIScopes } from './DIScope.js';
+import { createDIDepsProxy, DIDepsProxy } from './DIDepsProxy.js';
 
 interface Ctor {
   new (...args: any[]): any;

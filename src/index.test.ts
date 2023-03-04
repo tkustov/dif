@@ -1,4 +1,4 @@
-import { dif, Singleton, Transient } from '.';
+import { dif, Singleton, Transient } from './index.js';
 
 class Dummy {
   public isDummy: boolean = true;
