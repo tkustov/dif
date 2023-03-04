@@ -1,6 +1,6 @@
 {
   "name": "@tkustov/dif",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "description": "Factory-based DI",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
