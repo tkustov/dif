@@ -1,15 +1,16 @@
 import { DIFactories, DIFactory } from './DIFactory.js';
 import { DIScope, DIScopes } from './DIScope.js';
 import { DISubject } from './DISubject.js';
+import { InstanceInjection } from './InjectionConfig.js';
 import { SingletonFactory } from './SingletonFactory.js';
 import { TransientFactory } from './TransientFactory.js';
 
 type MethodParams<S, M extends keyof S> = S[M] extends (...args: infer A) => any ? DIFactories<A> : never[];
 
+
 export class DIDepsBuilder<Subject extends DISubject, I = ReturnType<Subject>> {
-  private depArgs?: [...DIFactory<any>[]];
-  private depMethods: Record<PropertyKey, DIFactory<any>[]> = {};
-  private depProps: Record<PropertyKey, DIFactory<any>> = {};
+  private subjectArgs?: DIFactory<any>[];
+  private instanceDeps: InstanceInjection[] = [];
 
   constructor(
     private subject: Subject,
@@ -17,28 +18,34 @@ export class DIDepsBuilder<Subject extends DISubject, I = ReturnType<Subject>> {
   ) { }
 
   args<Args extends DIFactories<Parameters<Subject>>>(...argFactories: Args): this {
-    this.depArgs = argFactories;
+    this.subjectArgs = argFactories;
     return this;
   }
 
   method<M extends keyof I, Args extends MethodParams<I, M>>(name: M, ...args: Args): this {
-    this.depMethods[name] = args;
+    this.instanceDeps.push({
+      type: 'method',
+      name,
+      factories: args
+    });
     return this;
   }
 
   prop<P extends keyof I>(name: P, valueFactory: DIFactory<I[P]>): this {
-    this.depProps[name] = valueFactory;
+    this.instanceDeps.push({
+      type: 'property',
+      name,
+      factory: valueFactory
+    });
     return this;
   }
 
   end(): DIFactory<ReturnType<Subject>> {
-    const methods = Object.keys(this.depMethods).length > 0 ? this.depMethods : undefined;
-    const props = Object.keys(this.depProps).length > 0 ? this.depProps : undefined;
     switch (this.scope) {
       case DIScopes.Singleton:
-        return new SingletonFactory(this.subject, this.depArgs, methods, props);
+        return new SingletonFactory(this.subject, this.subjectArgs, this.instanceDeps);
       case DIScopes.Transient:
-        return new TransientFactory(this.subject, this.depArgs, methods, props);
+        return new TransientFactory(this.subject, this.subjectArgs, this.instanceDeps);
     }
   }
 }
