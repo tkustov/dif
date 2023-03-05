@@ -162,4 +162,31 @@ describe('dif', () => {
       .end();
     expect(f3.create()).toBe('f1 true');
   });
+
+  it('should remain value injection order', () => {
+    class Unit {
+      public order: string[] = [];
+
+      setDep1(value: string) {
+        this.order.push(value);
+      }
+
+      setDep3(value: string) {
+        this.order.push(value);
+      }
+
+      set dep2(value: string) {
+        this.order.push(value);
+      }
+    }
+
+    const unit = dif.ctor(Unit, Singleton)
+      .setDep1(dif.value('dep1'))
+      .prop('dep2', dif.value('dep2'))
+      .setDep3(dif.value('dep3'))
+      .end();
+    const value = unit.create();
+
+    expect(value.order).toEqual(['dep1', 'dep2', 'dep3']);
+  });
 });
