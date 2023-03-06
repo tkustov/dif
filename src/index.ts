@@ -35,6 +35,8 @@ function value<V extends unknown>(value: V): DIFactory<V> {
   };
 }
 
+export type { DIFactory };
+
 export const Singleton = DIScopes.Singleton;
 export const Transient = DIScopes.Transient;
 
