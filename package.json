@@ -1,6 +1,6 @@
 {
   "name": "@tkustov/dif",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "type": "module",
   "description": "Factory-based DI",
   "main": "./lib/esm/index.js",
