@@ -27,10 +27,21 @@ function factory<F extends DISubject>(
   return proxy;
 }
 
-function value<V extends unknown>(value: V): DIFactory<V> {
+function value<V extends unknown>(value: V): DIFactory<V, {}> {
   return {
     create(): V {
       return value;
+    }
+  };
+}
+
+function param<V, K extends PropertyKey>(paramName: K): DIFactory<V, { [P in K]: V }> {
+  return {
+    create(ctx?: { [P in K]: V }): V {
+      if (!ctx) {
+        throw new TypeError(`Create context expected to be object w/ property "${String(paramName)}"`);
+      }
+      return ctx[paramName];
     }
   };
 }
@@ -45,4 +56,5 @@ export const dif = {
   ctor,
   factory,
   value,
+  param,
 };

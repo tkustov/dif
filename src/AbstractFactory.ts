@@ -1,16 +1,16 @@
-import { DIFactory } from './DIFactory.js';
+import { DIFactory, FactoryCtx } from './DIFactory.js';
 import { DISubject } from './DISubject.js';
 import { InstanceInjection } from './InjectionConfig.js';
 
 export abstract class AbstractFactory<S extends DISubject> {
   constructor(
     private readonly subject: S,
-    private readonly args?: DIFactory<any>[],
+    private readonly args?: DIFactory<any,any>[],
     private readonly config?: InstanceInjection[]
   ) { }
 
-  protected resolveInstance(): ReturnType<S> {
-    const args = this.args?.map(factory => factory.create()) ?? [];
+  protected resolveInstance(ctx?: FactoryCtx): ReturnType<S> {
+    const args = this.args?.map(factory => factory.create(ctx)) ?? [];
     const instance = this.subject(...args);
     if (this.config) {
       for (const injection of this.config) {

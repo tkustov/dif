@@ -5,11 +5,10 @@ import { InstanceInjection } from './InjectionConfig.js';
 import { SingletonFactory } from './SingletonFactory.js';
 import { TransientFactory } from './TransientFactory.js';
 
-type MethodParams<S, M extends keyof S> = S[M] extends (...args: infer A) => any ? DIFactories<A> : never[];
-
+type MethodParams<S, M extends keyof S> = S[M] extends (...args: infer A) => any ? DIFactories<A, any> : never[];
 
 export class DIDepsBuilder<Subject extends DISubject, I = ReturnType<Subject>> {
-  private subjectArgs?: DIFactory<any>[];
+  private subjectArgs?: DIFactory<any, any>[];
   private instanceDeps: InstanceInjection[] = [];
 
   constructor(
@@ -17,7 +16,7 @@ export class DIDepsBuilder<Subject extends DISubject, I = ReturnType<Subject>> {
     private scope: DIScope
   ) { }
 
-  args<Args extends DIFactories<Parameters<Subject>>>(...argFactories: Args): this {
+  args<Args extends DIFactories<Parameters<Subject>, any>>(...argFactories: Args): this {
     this.subjectArgs = argFactories;
     return this;
   }
@@ -31,7 +30,7 @@ export class DIDepsBuilder<Subject extends DISubject, I = ReturnType<Subject>> {
     return this;
   }
 
-  prop<P extends keyof I>(name: P, valueFactory: DIFactory<I[P]>): this {
+  prop<P extends keyof I>(name: P, valueFactory: DIFactory<I[P], any>): this {
     this.instanceDeps.push({
       type: 'property',
       name,
@@ -40,7 +39,7 @@ export class DIDepsBuilder<Subject extends DISubject, I = ReturnType<Subject>> {
     return this;
   }
 
-  end(): DIFactory<ReturnType<Subject>> {
+  end(): DIFactory<ReturnType<Subject>,any> {
     switch (this.scope) {
       case DIScopes.Singleton:
         return new SingletonFactory(this.subject, this.subjectArgs, this.instanceDeps);
