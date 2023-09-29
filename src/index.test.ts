@@ -1,3 +1,4 @@
+import { DIFactories } from './DIFactory.js';
 import { dif, Singleton, Transient } from './index.js';
 
 class Dummy {
@@ -60,6 +61,8 @@ describe('dif', () => {
     const uni1Factory = dif.ctor(Unit1, Transient)
       .args(dep1Factory, dep2Factory)
       .end();
+
+    expect(uni1Factory.create()).toBeInstanceOf(Unit1);
   });
 
   it('should be able to pass deps through the constructor', () => {
@@ -188,5 +191,22 @@ describe('dif', () => {
     const value = unit.create();
 
     expect(value.order).toEqual(['dep1', 'dep2', 'dep3']);
+  });
+
+  it('should derive subject from other one', () => {
+    const derivedStr = dif.derive(dif.value('a'), (str) => `${str},b`);
+    const value = derivedStr.create();
+    expect(value).toBe('a,b');
+  });
+
+  it('should compose value from other subjects', () => {
+    const a = dif.value(10);
+    const b = dif.value('b')
+    const composition = dif.compose(
+      [a, b],
+      (a, b) => `${a.toString(16)},${b},c`
+    );
+    const value = composition.create();
+    expect(value).toBe('a,b,c');
   });
 });

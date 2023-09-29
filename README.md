@@ -87,6 +87,8 @@ There are several methods available for creating units:
 | **dif.ctor(\<ClassCtor>, scope: DIScope)** | **ClassCtor** - class constructor | **DIDepsBuilder** | Creates an instance of the passed class constructor. |
 | **dif.factory(\<FactoryFn>, scope: DIScope)** | **FactoryFn** - factory function | **DIDepsBuilder** | Uses the result returned by the factory function. |
 | **dif.value(\<Value>)** | **Value** - any value | **DIFactory** | Creates a DI factory that always returns the passed value. |
+| **dif.derive(\<Parent>, \<DeriveFn>)** | **Parent** - factory, **DeriveFn** - function that maps **Parent** value to new one | **DIFactory** | Creates a DI factory that always returns the passed value. |
+| **dif.compose(\<Subjects>: DIFactory\[\], \<ComposeFn>)** | Same as **.derive()**, but for few sources | **DIFactory** | Creates a DI factory that always returns the passed value. |
 
 ### **Dependency definition (DIDepsBuilder)**
 
